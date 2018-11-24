@@ -8,6 +8,8 @@ CapacitiveSensor   cs_4_2 = CapacitiveSensor(4,2);
 CapacitiveSensor   cs_4_6 = CapacitiveSensor(4,6); 
 
 
+#define SHORTEST_NOTE 2432
+
 #define SPEAKER 11
 #define DELAY  (1*1000000)/8000
 
@@ -64,40 +66,40 @@ void setup() {
 void loop() {
   // space check
 
-  for(unsigned int i = 0; i < a1_wav_len; i ++  ){
+  for(unsigned int i = 0; i < SHORTEST_NOTE; i ++  ){
     OCR2A = pgm_read_byte_near(a1_wav + i);
   }
-  for(unsigned int i = 0; i < a1s_wav_len; i ++  ){
+  for(unsigned int i = 0; i < SHORTEST_NOTE; i ++  ){
     OCR2A = pgm_read_byte_near(a1s_wav + i);
   }
-  for(unsigned int i = 0; i < b1_wav_len; i ++  ){
+  for(unsigned int i = 0; i < SHORTEST_NOTE; i ++  ){
     OCR2A = pgm_read_byte_near(b1_wav + i);
   }
-  for(unsigned int i = 0; i < c1_wav_len; i ++  ){
+  for(unsigned int i = 0; i < SHORTEST_NOTE; i ++  ){
     OCR2A = pgm_read_byte_near(c1_wav + i);
   }
-  for(unsigned int i = 0; i < c1s_wav_len; i ++  ){
+  for(unsigned int i = 0; i < SHORTEST_NOTE; i ++  ){
     OCR2A = pgm_read_byte_near(c1s_wav + i);
   }
-  for(unsigned int i = 0; i < d1_wav_len; i ++  ){
+  for(unsigned int i = 0; i < SHORTEST_NOTE; i ++  ){
     OCR2A = pgm_read_byte_near(d1_wav + i);
   }
-  for(unsigned int i = 0; i < d1s_wav_len; i ++  ){
+  for(unsigned int i = 0; i < SHORTEST_NOTE; i ++  ){
     OCR2A = pgm_read_byte_near(d1s_wav + i);
   }
-  for(unsigned int i = 0; i < e1_wav_len; i ++  ){
+  for(unsigned int i = 0; i < SHORTEST_NOTE; i ++  ){
     OCR2A = pgm_read_byte_near(e1_wav + i);
   }
-  for(unsigned int i = 0; i < f1_wav_len; i ++  ){
+  for(unsigned int i = 0; i < SHORTEST_NOTE; i ++  ){
     OCR2A = pgm_read_byte_near(f1_wav + i);
   }
-  for(unsigned int i = 0; i < f1s_wav_len; i ++  ){
+  for(unsigned int i = 0; i < SHORTEST_NOTE; i ++  ){
     OCR2A = pgm_read_byte_near(f1s_wav + i);
   }
-  for(unsigned int i = 0; i < g1_wav_len; i ++  ){
+  for(unsigned int i = 0; i < SHORTEST_NOTE; i ++  ){
     OCR2A = pgm_read_byte_near(g1_wav + i);
   }
-  for(unsigned int i = 0; i < g1s_wav_len; i ++  ){
+  for(unsigned int i = 0; i < SHORTEST_NOTE; i ++  ){
     OCR2A = pgm_read_byte_near(g1s_wav + i);
   }
 

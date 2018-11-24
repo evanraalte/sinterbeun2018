@@ -23,7 +23,7 @@ mini= min(arr)
 maxi = max(arr)
 m = interp1d([mini,maxi],[0,255])
 
-new = map (lambda a : int(m(a)), arr)
+new = map (lambda a : int(m(a)), arr)[:2400]
 
 strr = map (lambda a : format(a, '#04x'),new)
 
@@ -51,7 +51,7 @@ f2.close()
 
 
 
-print len(strr)
+print name+'\t'+str(len(strr))
 
 # plt.plot(new)
 # plt.ylabel('some numbers')
