@@ -8,6 +8,7 @@ import os
 def filename_without_ext(path_to_file): return os.path.splitext(path_to_file)[0]
 
 divFactor = int(sys.argv[2])
+take = int(sys.argv[3])
 
 a= read(sys.argv[1])
 
@@ -23,7 +24,7 @@ mini= min(arr)
 maxi = max(arr)
 m = interp1d([mini,maxi],[0,255])
 
-new = map (lambda a : int(m(a)), arr)[:2400]
+new = map (lambda a : int(m(a)), arr)[:take]
 
 strr = map (lambda a : format(a, '#04x'),new)
 
