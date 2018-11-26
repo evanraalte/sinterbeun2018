@@ -52,7 +52,7 @@ f2.close()
 
 
 
-print name+'\t'+str(len(strr))
+print name+'\t'+str(len(strr)) +'\t'+ str(len(arr))
 
 # plt.plot(new)
 # plt.ylabel('some numbers')
