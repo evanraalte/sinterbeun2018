@@ -6,5 +6,6 @@
     "files.associations": {
         "pgmspace.h": "c"
     },
-    "C_Cpp.intelliSenseEngineFallback": "Disabled"
+    "C_Cpp.intelliSenseEngineFallback": "Disabled",
+    "C_Cpp.dimInactiveRegions": true
 }

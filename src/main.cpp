@@ -39,7 +39,7 @@ CapacitiveSensor cs_2[NUM_SENSORS] = {
 volatile bool overflow = false;
 volatile uint8_t overflowCnt = 0;
 
-volatile uint32_t adcCount = 0;
+volatile uint16_t adcCount = 0;
 volatile bool measureAdc = true;
 
 // volatile uint8_t val = 0;
@@ -48,8 +48,30 @@ volatile bool measureAdc = true;
 volatile bool play[NUM_SENSORS] = {false};
 volatile uint16_t playCnt[NUM_SENSORS] = {0}; 
 
-const uint8_t* adresses[] = {c1_wav,c1s_wav,d1_wav,d1s_wav,e1_wav,f1_wav,f1s_wav,g1_wav,g1s_wav,a1_wav,a1s_wav,b1_wav}; //check if this works..
-const unsigned int lenghts[] = {c1_wav_len,c1s_wav_len,d1_wav_len,d1s_wav_len,e1_wav_len,f1_wav_len,f1s_wav_len,g1_wav_len,g1s_wav_len,a1_wav_len,a1s_wav_len,b1_wav_len};
+const uint8_t* adresses[] = {c1_wav
+                            ,c1s_wav
+                            ,d1_wav
+                            ,d1s_wav
+                            ,e1_wav
+                            ,f1_wav
+                            ,f1s_wav
+                            ,g1_wav
+                            ,g1s_wav
+                            ,a1_wav
+                            ,a1s_wav
+                            ,b1_wav}; //check if this works..
+const unsigned int lenghts[] = {c1_wav_len
+                               ,c1s_wav_len
+                               ,d1_wav_len
+                               ,d1s_wav_len
+                               ,e1_wav_len
+                               ,f1_wav_len
+                               ,f1s_wav_len
+                               ,g1_wav_len
+                               ,g1s_wav_len
+                               ,a1_wav_len
+                               ,a1s_wav_len
+                               ,b1_wav_len};
 
 SIGNAL(TIMER2_OVF_vect){
   overflowCnt++;
@@ -57,12 +79,13 @@ SIGNAL(TIMER2_OVF_vect){
     overflow = true;
     overflowCnt = 0;
     // digitalWrite(LED_BUILTIN, HIGH);s
+    adcCount++;
+    if(adcCount >= 62500){
+      adcCount = 0;
+      measureAdc = true;
+    }
   }
-  adcCount++;
-  if(adcCount >= 62500*10){
-    adcCount = 0;
-    measureAdc = true;
-  }
+
 }
 
 
