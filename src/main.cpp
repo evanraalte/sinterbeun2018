@@ -75,20 +75,20 @@ void loop() {
   static bool pressed[NUM_SENSORS] = { false};
   static bool pressed_old[NUM_SENSORS] = { false};
   
-  play[0] = true;
-  // for(uint8_t i = 0; i < NUM_SENSORS; i++ ){
-  //   keys[i] = cs_2[i].capacitiveSensor(3);
-  //   pressed_old[i] = pressed[i];
-  //   pressed[i] = (keys[i] > PRESS_THRESHOLD)?true:false;
-  //   noInterrupts();
-  //   if (pressed[i] && !pressed_old[i]){
-  //     play[i] = true;
-  //     playCnt[i] = 0;
-  //   }
-  //   interrupts();
-  //   // Serial.print(play[i]);
-  //   // Serial.print('\t');
-  // }
+  // play[0] = true;
+  for(uint8_t i = 0; i < NUM_SENSORS; i++ ){
+    keys[i] = cs_2[i].capacitiveSensor(3);
+    pressed_old[i] = pressed[i];
+    pressed[i] = (keys[i] > PRESS_THRESHOLD)?true:false;
+    noInterrupts();
+    if (pressed[i] && !pressed_old[i]){
+      play[i] = true;
+      playCnt[i] = 0;
+    }
+    interrupts();
+    // Serial.print(play[i]);
+    // Serial.print('\t');
+  }
   // Serial.println();
   if (overflow){
     uint16_t sumTone = 0;
