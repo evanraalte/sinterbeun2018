@@ -1,7 +1,7 @@
 from scipy.io.wavfile import read
 from scipy.interpolate import interp1d
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import sys
 import os
 

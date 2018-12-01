@@ -1,7 +1,7 @@
 #!/bin/bash
 for filename in *.wav; do
     # xxd -i $filename ${filename%%.*}.c
-    python convert.py $filename 9 2000
+    python2 convert.py $filename 9 2275
     name=${filename%%.*}
     mkdir -p $name
     mv $name.c $name/
