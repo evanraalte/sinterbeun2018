@@ -10,7 +10,6 @@
 
 const size_t NUM_SENSORS = 12;
 CapacitiveSensor cs_2[NUM_SENSORS] = {
-  CapacitiveSensor(2,3),
   CapacitiveSensor(2,4),
   CapacitiveSensor(2,5),
   CapacitiveSensor(2,6),
@@ -18,10 +17,11 @@ CapacitiveSensor cs_2[NUM_SENSORS] = {
   CapacitiveSensor(2,8),
   CapacitiveSensor(2,9),
   CapacitiveSensor(2,10),
-  CapacitiveSensor(18,14),
-  CapacitiveSensor(18,15),
-  CapacitiveSensor(18,16),
-  CapacitiveSensor(18,17),
+  CapacitiveSensor(2,11),
+  CapacitiveSensor(2,14),
+  CapacitiveSensor(2,15),
+  CapacitiveSensor(2,16),
+  CapacitiveSensor(2,17),
 };
 
 
@@ -31,8 +31,9 @@ CapacitiveSensor cs_2[NUM_SENSORS] = {
 #define SHORTEST_NOTE 2000
 
 
+
 #define BATTERYLED 13
-#define SPEAKER 11
+#define SPEAKER 3
 #define DELAY  (1*1000000)/8000
 
 // volatile float i = 0;
@@ -86,6 +87,29 @@ SIGNAL(TIMER2_OVF_vect){
     }
   }
 
+  if (overflow){
+    uint16_t sumTone = 0;
+
+    for(uint16_t j = 0; j < NUM_SENSORS; j++){
+      if(play[j]){
+        if(playCnt[j] < lenghts[j] ){
+          playCnt[j]++; //sumTone +=
+           sumTone += pgm_read_byte_near(adresses[j] + playCnt[j]);//pgm_read_byte_near(adresses[j] + playCnt[j]);
+        } else {
+          play[j] = false;
+          playCnt[j] = 0;
+        }
+      } else {
+        playCnt[j] = 0;
+      }
+    }   
+
+    //map sumtone to a smaller  variable
+    OCR2B = (uint8_t) map(sumTone, 0, 255*3, 0, 255); //how many keys can you press at once? maybe this is too pessimistic
+
+    overflow = false;
+  }
+
 }
 
 
@@ -109,11 +133,11 @@ void setup() {
   interrupts();
 
 
-
+  play[0] = true;
 }
 
 void loop() {
-  long keys[NUM_SENSORS] = {  0 }; 
+  static long keys[NUM_SENSORS] = {  0 }; 
   static bool pressed[NUM_SENSORS] = { false};
   static bool pressed_old[NUM_SENSORS] = { false};
   
@@ -122,38 +146,29 @@ void loop() {
     keys[i] = cs_2[i].capacitiveSensor(3);
     pressed_old[i] = pressed[i];
     pressed[i] = (keys[i] > PRESS_THRESHOLD)?true:false;
-    noInterrupts();
+    // noInterrupts();
     if (pressed[i] && !pressed_old[i]){
       play[i] = true;
       playCnt[i] = 0;
     }
-    interrupts();
-    // Serial.print(play[i]);
-    // Serial.print('\t');
+    // interrupts();
+    #ifdef VERBOSE
+    Serial.print(keys[i]);
+    Serial.print('\t');
+    #endif
   }
-  // Serial.println();
-  if (overflow){
-    uint16_t sumTone = 0;
+  #ifdef VERBOSE
+  Serial.println();
+  #endif
+  // static uint8_t k = 0;
+  // if(play[k] == false ){
+  //   k = (k+1)%12;
+  //   play[k] = true;
+  //   // play[(k+4)%12] = true;
+  //   // play[(k+7)%12] = true;
+    
+  // }
 
-    for(uint16_t j = 0; j < NUM_SENSORS; j++){
-      if(play[j]){
-        if(playCnt[j] < lenghts[j] ){
-          playCnt[j]++; //sumTone +=
-           sumTone += pgm_read_byte_near(adresses[j] + playCnt[j]);//pgm_read_byte_near(adresses[j] + playCnt[j]);
-        } else {
-          play[j] = false;
-          playCnt[j] = 0;
-        }
-      } else {
-        playCnt[j] = 0;
-      }
-    }   
-
-    //map sumtone to a smaller  variable
-    OCR2A = (uint8_t) map(sumTone, 0, 255*NUM_SENSORS, 0, 255); //how many keys can you press at once? maybe this is too pessimistic
-
-    overflow = false;
-  }
 
   if(measureAdc){
     //0-255 <-> 0V-5V 0.02V resolution
@@ -162,8 +177,8 @@ void loop() {
 
     #ifdef VERBOSE
     float v = voltage*0.02;
-    print("Voltage: ");
-    println(v);
+    Serial.print("Voltage: ");
+    Serial.println(v);
     #endif
     
     if(voltage <= 160){
