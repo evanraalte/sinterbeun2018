@@ -10,6 +10,11 @@
 
 const size_t NUM_SENSORS = 12;
 CapacitiveSensor cs_2[NUM_SENSORS] = {
+  CapacitiveSensor(2,11),
+  CapacitiveSensor(2,14),
+  CapacitiveSensor(2,15),
+  CapacitiveSensor(2,16),
+  CapacitiveSensor(2,17),
   CapacitiveSensor(2,4),
   CapacitiveSensor(2,5),
   CapacitiveSensor(2,6),
@@ -17,11 +22,6 @@ CapacitiveSensor cs_2[NUM_SENSORS] = {
   CapacitiveSensor(2,8),
   CapacitiveSensor(2,9),
   CapacitiveSensor(2,10),
-  CapacitiveSensor(2,11),
-  CapacitiveSensor(2,14),
-  CapacitiveSensor(2,15),
-  CapacitiveSensor(2,16),
-  CapacitiveSensor(2,17),
 };
 
 
@@ -105,7 +105,7 @@ SIGNAL(TIMER2_OVF_vect){
     }   
 
     //map sumtone to a smaller  variable
-    OCR2B = (uint8_t) map(sumTone, 0, 255*3, 0, 255); //how many keys can you press at once? maybe this is too pessimistic
+    OCR2B = (uint8_t) map(sumTone, 0, 255*NUM_SENSORS, 0, 255); //how many keys can you press at once? maybe this is too pessimistic
 
     overflow = false;
   }
@@ -133,10 +133,12 @@ void setup() {
   interrupts();
 
 
-  play[0] = true;
+  // play[0] = true;
 }
 
 void loop() {
+  // play[0] = true;
+
   static long keys[NUM_SENSORS] = {  0 }; 
   static bool pressed[NUM_SENSORS] = { false};
   static bool pressed_old[NUM_SENSORS] = { false};
@@ -160,14 +162,7 @@ void loop() {
   #ifdef VERBOSE
   Serial.println();
   #endif
-  // static uint8_t k = 0;
-  // if(play[k] == false ){
-  //   k = (k+1)%12;
-  //   play[k] = true;
-  //   // play[(k+4)%12] = true;
-  //   // play[(k+7)%12] = true;
-    
-  // }
+
 
 
   if(measureAdc){
